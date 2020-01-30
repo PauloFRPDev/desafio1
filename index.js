@@ -22,4 +22,19 @@ server.get('/projects', (req, res) => {
   return res.json(projects);
 });
 
+/* Change title project with id params */
+server.put('/projects/:id', (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+
+  /* Runs through the list to find the id and changes the title of it */
+  projects.forEach((project) => {
+    if(project.id == id) {
+      project.title = title;
+    }
+  });
+
+  return res.json(projects);
+});
+
 server.listen(3000);
