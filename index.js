@@ -8,17 +8,26 @@ const projects = [];
 
 /* Middleware to verify if project exists before any request */
 function checkIfProjectExists(req, res, next) {
-  const projectId = req.params.id;
-
+  const { id } = req.params;
   /* Search for project id in the projects array */
-  projects.forEach((project) => {
-    if(!(project.id == projectId)) {
-      return res.status(400).json({ error: "Project doesn't exists" });
-    }
+  const project = projects.find(p => p.id == id);
 
-    next();
-  });
+  if (!project) {
+    return res.status(400).json({ error: 'Project not found' });
+  }
+
+  return next();
 }
+
+/* Request Counting */
+function requestCount(req, res, next) {
+
+  console.count("Request Count");
+
+  return next();
+}
+
+server.use(requestCount);
 
 /* Add projects in the array (params: id, title) */
 server.post('/projects', (req, res) => {
