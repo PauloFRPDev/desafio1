@@ -37,4 +37,18 @@ server.put('/projects/:id', (req, res) => {
   return res.json(projects);
 });
 
+/* Delete project with id params */
+server.delete('/projects/:id', (req, res) => {
+  const { id } = req.params;
+
+  /* Runs through the list to find the id and deletes it */
+  projects.forEach((project) => {
+    if(project.id == id) {
+      projects.splice(project, 1);
+    }
+  });
+
+  return res.status(200).json("Projeto excluído com sucesso");
+});
+
 server.listen(3000);
