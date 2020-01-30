@@ -51,4 +51,19 @@ server.delete('/projects/:id', (req, res) => {
   return res.status(200).json("Projeto excluído com sucesso");
 });
 
+/* Add tasks inside a project with id param */
+server.post('/projects/:id/tasks', (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+
+  /* Runs through the list to find the id and insert a new task inside tasks array */
+  projects.forEach((project) => {
+    if(project.id == id) {
+      project.tasks.push(title);
+    }
+  });
+
+  return res.json(projects);
+});
+
 server.listen(3000);
